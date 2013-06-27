@@ -1,40 +1,61 @@
 /*  
-    http://www.dailycoding.com/ 
+ * Simple Jquery Imagelens zoom
 */
 (function ($) {
-    $.fn.imageLens = function (options) {
+    $.fn.imageLens = function (options) 
+    {
 
-        var defaults = {
+        var defaults = 
+        {
             lensSize: 100,
             borderSize: 4,
-            borderColor: "#888"
+            borderColor: "#888",
+            destroy: false,
+            lensClass:'lens-preview'
         };
-        var options = $.extend(defaults, options);
+        
+        options = $.extend(defaults, options);
+        
+        console.log(options);
+        
+        
+        /**
+         * Check if user need to  destroy prev element
+         */
+        if(true === options.destroy)
+        {
+            $("."+options.lensClass).remove();
+        	return;
+        }
+        
+        
         var lensStyle = "background-position: 0px 0px;width: " + String(options.lensSize) + "px;height: " + String(options.lensSize)
             + "px;float: left;display: none;border-radius: " + String(options.lensSize / 2 + options.borderSize)
             + "px;border: " + String(options.borderSize) + "px solid " + options.borderColor 
             + ";background-repeat: no-repeat;position: absolute;";
 
-        return this.each(function () {
+        
+        
+        
+        
+        
+        return this.each(function () 
+        {
             obj = $(this);
 
             var offset = $(this).offset();
 
             // Creating lens
-            var target = $("<div style='" + lensStyle + "' id='zoom_div' class='" + options.lensCss + "'>&nbsp;</div>").appendTo($(this).parent());
-            var targetSize = target.size();
-if (options.loadingImageSrc) { 
-  target.html('<img class="loading_image" src="' + options.loadingImageSrc + '">')
-}
+            var target = $("<div style='" + lensStyle + "' class='" + options.lensClass + "'>&nbsp;</div>").appendTo($(this).parent());
+
             // Calculating actual size of image
             var imageSrc = options.imageSrc ? options.imageSrc : $(this).attr("src");
-            var imageTag = "<img style='display:none;' src='" + imageSrc + "' />";
+            var imageTag = "<img style='display:none;' src='" + imageSrc + "' class='"+ options.lensClass +"' />";
 
             var widthRatio = 0;
             var heightRatio = 0;
 
             $(imageTag).load(function () {
-target.find('.loading_image').remove();
                 widthRatio = $(this).width() / obj.width();
                 heightRatio = $(this).height() / obj.height();
             }).appendTo($(this).parent());
@@ -44,7 +65,8 @@ target.find('.loading_image').remove();
             target.mousemove(setPosition);
             $(this).mousemove(setPosition);
 
-            function setPosition(e) {
+            function setPosition(e) 
+            {
 
                 var leftPos = parseInt(e.pageX - offset.left);
                 var topPos = parseInt(e.pageY - offset.top);
@@ -66,4 +88,8 @@ target.find('.loading_image').remove();
             }
         });
     };
+    
+
+
+    
 })(jQuery);
