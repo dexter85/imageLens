@@ -15,9 +15,7 @@
         };
         
         options = $.extend(defaults, options);
-        
-        console.log(options);
-        
+            
         
         /**
          * Check if user need to  destroy prev element
